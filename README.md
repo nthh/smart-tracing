@@ -48,6 +48,22 @@ When you run in production, it is strongly recommended you change your password 
 
 ### Run it!
 
+You'll need to start a local mongodb instance: 
+
+If you installed from a .zip on Mac, open new terminal window and run
+
+    mongod
+
+If you installed mongodb using docker
+
+    docker run -d -p 27017:27017 mongo:latest
+
+
+If you installed mongodb using brew
+
+    brew services start mongodb
+
+
 To initialize the project you'll want to build all the JS and CSS files and then initialize the keystone instance like so:
 
     node build.js
@@ -82,7 +98,7 @@ Then, create a `.env` file in the project folder (the one with this readme) and 
 
     NODE_ENV=production
     COOKIE_SECRET={a random string to encrypt cookies}
-    MONGO_URI={your mongo connection uri} // can also be MONGOLAB_URI
+    MONGO_URI={your mongo connection uri}
     GA_DOMAIN={your google analytics domain} // optional
     GA_PROPERTY={your google analytics property} // optional
     PORT={the port to listen on} // defaults to 3000, automatically set by paas (e.g. heroku)
