@@ -14,7 +14,7 @@ class GraphDao(private val driver: Driver) {
             session.writeTransaction { txn ->
                 val result = txn.run(
                         "CREATE (d:Device {id: '${UUID.randomUUID()}', fingerprint: '${fingerprint?.value ?: "none"}', initialIp: '${ip ?: "none"}'}) RETURN d.id as id"
-                ).single()["id"].asInt()
+                ).single()["id"].asString()
                 return@writeTransaction result?.let { DeviceId("$it") }
             }
         }

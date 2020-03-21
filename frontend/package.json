@@ -19,6 +19,6 @@
   },
   "scripts": {
     "build": "node build.js",
-    "serve": "http-server ./public"
+    "serve": "http-server -p 3000 ./public"
   }
 }

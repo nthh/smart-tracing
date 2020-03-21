@@ -1,13 +1,14 @@
 "use strict";
 
 // Remove Console Log
-console.log = function () { };
+// console.log = function() {};
+const API_HOST = location.host;
 //-------------------------------------------------------------------
 var router = (function () {
     return {
         genQR: function (dvid, elementId) {
             new QRCode(document.getElementById(elementId), {
-                text: "https://www.zerobase.io/s/" + dvid,
+                text: `${API_HOST}/s/${dvid}`,
                 width: 300,
                 height: 300,
                 colorDark: "#000000",
@@ -24,10 +25,14 @@ var router = (function () {
             // @ts-ignore
             inputs && inputs.fingerprint ? inputs.fingerprint : undefined);
             var opts = {
-                url: "/c/" + uniqD,
-                data: submit,
+                url: `${API_HOST}/c/${uniqD}`,
+                data: JSON.stringify({
+                    ip: inputs && inputs.ip ? inputs.ip : undefined,
+                    fingerprint: inputs && inputs.fingerprint ? inputs.fingerprint : undefined
+                }),
                 cache: false,
-                contentType: false,
+                dataType: 'json',
+                contentType: 'application/json',
                 processData: false,
                 type: "POST",
                 success: function (data) {
@@ -48,7 +53,7 @@ var router = (function () {
                     }
                 },
                 error: err => {
-                    console.log(err);
+                    err.catch(console.log);
                     //todo
                 }
             };
@@ -69,8 +74,14 @@ var router = (function () {
             // @ts-ignore
             inputs && inputs.fingerprint ? inputs.fingerprint : undefined);
             var opts = {
-                url: "/ca/" + dvid,
-                data: submit,
+                url: `${API_HOST}/ca/${dvid}`,
+                data: {
+                    dvid,
+                    dvid_c,
+                    ip: inputs && inputs.ip ? inputs.ip : undefined,
+                    // @ts-ignore
+                    fingerprint: inputs && inputs.fingerprint ? inputs.fingerprint : undefined
+                },
                 cache: false,
                 contentType: false,
                 processData: false,
@@ -143,10 +154,16 @@ var router = (function () {
             // @ts-ignore
             inputs && inputs.fingerprint ? inputs.fingerprint : undefined);
             var opts = {
-                url: "/s-id/" + dvid,
-                data: submit,
+                url: `${API_HOST}/s-id/${dvid}`,
+                data: JSON.stringify({
+                    dvid,
+                    sdvid: inputs && inputs.sdvid ? inputs.sdvid : undefined,
+                    ip: inputs && inputs.ip ? inputs.ip : undefined,
+                    fingerprint: inputs && inputs.ip ? inputs.ip : undefined
+                }),
                 cache: false,
-                contentType: false,
+                dataType: 'json',
+                contentType: 'application/json',
                 processData: false,
                 type: "POST",
                 success: function (data) {
